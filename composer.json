@@ -1,0 +1,23 @@
+{
+    "name": "alexeyyashin/codegen-php",
+    "description": "Codegen PHP plugin",
+    "type": "library",
+    "require": {
+        "alexeyyashin/codegen": "^1.0.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexey Yashin",
+            "email": "alx@ayashin.ru"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "src/aliases.php"
+        ],
+        "psr-4": {
+            "AlexeyYashin\\Codegen\\Php\\": "src/"
+        }
+    }
+}
