@@ -47,6 +47,8 @@ trait ClassMember
     public function static()
     {
         $this->Static = true;
+
+        return $this;
     }
 
     public function nonstatic()

@@ -21,6 +21,11 @@ use AlexeyYashin\Codegen\Php\Statements\IfStatement;
  */
 class PhpFactory extends Factory
 {
+    public static function eol()
+    {
+        return "\n";
+    }
+
     public static function ifStatement()
     {
         return new IfStatement();
@@ -49,5 +54,77 @@ class PhpFactory extends Factory
     public static function classMethodDeclaration(string $name = '')
     {
         return new ClassMethodDeclaration($name);
+    }
+
+    public static function mk($arr, $req = 0)
+    {
+        $LF = "\n";
+        $TAB = '    ';
+        $TT = str_repeat($TAB, $req);
+
+        $STR = '';
+
+        $escape = function($v)
+        {
+            return str_replace(
+                ['\'',   '\\'],
+                ['\\\'', '\\\\'],
+                $v
+            );
+        };
+
+        if (is_array($arr))
+        {
+            if ( ! $arr)
+            {
+                $STR .= '[]';
+            }
+            else
+            {
+                $STR .= '[' . $LF;
+                foreach ($arr as $k => $v)
+                {
+                    if (is_string($k))
+                    {
+                        $k = sprintf('\'%s\'', $k);
+                    }
+                    $STR .= sprintf(
+                        $TT . $TAB . '%s => %s,' . $LF,
+                        $k,
+                        static::mk($v, $req + 1)
+                    );
+                }
+                $STR .= $TT . ']';
+            }
+        }
+        elseif (is_string($arr))
+        {
+            $STR .= sprintf('\'%s\'', $escape($arr));
+        }
+        elseif (is_numeric($arr))
+        {
+            $STR .= $arr;
+        }
+        elseif ($arr === true)
+        {
+            $STR .= 'true';
+        }
+        elseif ($arr === false)
+        {
+            $STR .= 'false';
+        }
+        elseif ($arr === null)
+        {
+            $STR .= 'null';
+        }
+        else
+        {
+            $STR .= sprintf(
+                '\'%s\'',
+                $escape(serialize($arr))
+            );
+        }
+
+        return $STR ?: 'null';
     }
 }

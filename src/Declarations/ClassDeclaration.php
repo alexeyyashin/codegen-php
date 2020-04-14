@@ -60,10 +60,21 @@ class ClassDeclaration implements CodegenEntity
         return $this;
     }
 
+    protected $Extends = null;
+
+    public function extends($class)
+    {
+        $this->Extends = $class;
+        return $this;
+    }
+
     public function __toString()
     {
         $resultText = '';
-        $resultText .= PhpFactory::format('class %s' . PhpFactory::eol() . '{' . PhpFactory::eol(), $this->Name);
+        $resultText .= PhpFactory::format('class %s%s' . PhpFactory::eol() . '{' . PhpFactory::eol(),
+            $this->Name,
+            PhpFactory::format(' extends %s', $this->Extends)
+        );
 
         $props = '';
         foreach ($this->Properties as $property) {
