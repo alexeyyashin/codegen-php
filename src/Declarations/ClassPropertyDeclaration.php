@@ -123,8 +123,9 @@ class ClassPropertyDeclaration implements CodegenEntity
     public function __toString()
     {
         return (string) PhpFactory::text()
-            ->text(PhpFactory::format('%s $%s%s',
+            ->text(PhpFactory::format('%s%s $%s%s',
                 $this->Visibility,
+                PhpFactory::format(' static', $this->Static),
                 $this->Name,
                 PhpFactory::format(' = %s', $this->Value)
             ))
