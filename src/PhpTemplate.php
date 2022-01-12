@@ -7,13 +7,17 @@
 namespace AlexeyYashin\Codegen\Php;
 
 use AlexeyYashin\Codegen\LineStreak;
+use AlexeyYashin\Codegen\Php\Constructions\PhpCodePhpDoc;
 use AlexeyYashin\Codegen\Template;
 
 class PhpTemplate extends Template
 {
-    public function __construct()
+    public function __construct($addMark = true)
     {
         $this->addComponent('top', '<?php');
+        if ($addMark) {
+            $this->addMark();
+        }
     }
 
     public function addNamespace($namespace)
@@ -36,6 +40,17 @@ class PhpTemplate extends Template
             ::line('/*')
             ->text($body)
             ->line('*/')
+        );
+    }
+
+    protected function addMark()
+    {
+        $this->addComponent(self::TYPE_TOP, (new PhpCodePhpDoc())
+            ->line('This file was automatically generated')
+            ->line('using alexeyyashin/codegen-php')
+            ->line('@see https://github.com/alexeyyashin/codegen-php')
+            ->line()
+            ->line('at ' . date('Y-m-d H:i:s') . "\n")
         );
     }
 }

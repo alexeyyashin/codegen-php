@@ -71,14 +71,14 @@ class ClassDeclaration implements CodegenEntity
     public function __toString()
     {
         $resultText = '';
-        $resultText .= PhpFactory::format('class %s%s' . PhpFactory::eol() . '{' . PhpFactory::eol(),
+        $resultText .= PhpFactory::format('class %s%s' . PhpFactory::eol() . '{',
             $this->Name,
             PhpFactory::format(' extends %s', $this->Extends)
         );
 
         $props = '';
         foreach ($this->Properties as $property) {
-            $props .= $property;
+            $props .= rtrim($property);
 
             foreach ($property->getMethods() as $method) {
                 $this->Methods[$method->getName()] = $method;
@@ -88,9 +88,9 @@ class ClassDeclaration implements CodegenEntity
         $resultText .= PhpFactory::format('%s' . PhpFactory::eol(), $props);
 
         foreach ($this->Methods as $method) {
-            $resultText .= $method . PhpFactory::eol();
+            $resultText .= $method;
         }
-        $resultText .= '}' . PhpFactory::eol();
+        $resultText .= '}';
 
         return (string) PhpFactory::text()->text($resultText);
     }

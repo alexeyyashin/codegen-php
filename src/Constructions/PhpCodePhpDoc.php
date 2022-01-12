@@ -19,6 +19,6 @@ class PhpCodePhpDoc extends LineStreak
         $a[] = ' */';
         $this->lines = $a;
 
-        return parent::__toString();
+        return implode("\n", $this->lines);
     }
 }
