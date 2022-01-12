@@ -51,7 +51,7 @@ class ClassMethodDeclaration extends FunctionDeclaration
                 . '%6$s' . '}',
                 $this->Name,
                 $this->Visibility,
-                PhpFactory::format('static', $this->Static),
+                PhpFactory::format(' static', $this->Static),
                 implode(', ', $this->Arguments),
                 PhpFactory::format(': %s', $this->returns),
 //                PhpFactory::text()->text($this->Body)
