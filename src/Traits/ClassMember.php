@@ -6,10 +6,13 @@
  */
 namespace AlexeyYashin\Codegen\Php\Traits;
 
+use AlexeyYashin\Codegen\Php\Constructions\PhpCodePhpDoc;
+
 trait ClassMember
 {
     protected $Visibility = 'public';
     protected $Static = false;
+    protected $phpdoc = null;
 
     public function getVisibility()
     {
@@ -54,6 +57,13 @@ trait ClassMember
     public function nonstatic()
     {
         $this->Static = false;
+
+        return $this;
+    }
+
+    public function phpdoc(PhpCodePhpDoc $value)
+    {
+        $this->phpdoc = $value;
 
         return $this;
     }
