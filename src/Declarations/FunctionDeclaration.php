@@ -94,10 +94,16 @@ class FunctionDeclaration implements CodegenEntity
         return $this;
     }
 
+    public function returnValue($value)
+    {
+        $this->Body .= ($this->Body ? "\n" : '') . 'return ' . $value . ';' . "\n";
+        return $this;
+    }
+
     public function __toString()
     {
         $function = LineStreak
-            ::text(PhpFactory::format('function %s(%s)' . PhpFactory::eol() . '{',
+            ::text(sprintf('function %s(%s)' . ($this->Name ? PhpFactory::eol() : ' ') . '{',
                 $this->Name,
                 implode(', ', $this->Arguments))
             )
