@@ -13,6 +13,7 @@ use AlexeyYashin\Codegen\Php\Declarations\ClassMethodDeclaration;
 use AlexeyYashin\Codegen\Php\Declarations\ClassPropertyDeclaration;
 use AlexeyYashin\Codegen\Php\Declarations\FunctionDeclaration;
 use AlexeyYashin\Codegen\Php\Declarations\ClassDeclaration;
+use AlexeyYashin\Codegen\Php\Statements\EscapeMk;
 use AlexeyYashin\Codegen\Php\Statements\IfStatement;
 
 /**
@@ -73,7 +74,10 @@ class PhpFactory extends Factory
             );
         };
 
-        if (is_array($arr))
+        if ($arr instanceof EscapeMk) {
+            $STR .= (string) $arr;
+        }
+        elseif (is_array($arr))
         {
             if ( ! $arr)
             {
@@ -125,6 +129,25 @@ class PhpFactory extends Factory
             );
         }
 
-        return $STR ?: 'null';
+        return strlen($STR) ? $STR : 'null';
+    }
+
+    public static function format($template, ...$params)
+    {
+        if (reset($params)) {
+            foreach ($params as &$param) {
+                if (is_array($param)) {
+                    $param = self::mk($param);
+                }
+            }
+            return estring(sprintf($template, ...$params));
+        }
+
+        return estring('');
+    }
+
+    public static function escapeMk(string $value)
+    {
+        return new EscapeMk($value);
     }
 }

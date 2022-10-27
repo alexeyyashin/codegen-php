@@ -47,7 +47,7 @@ class ClassMethodDeclaration extends FunctionDeclaration
         }
 
         return (string) PhpFactory::text()
-            ->text(PhpFactory::format('%2$s%3$s function %1$s(%4$s)%5$s' . PhpFactory::eol() . '{' . PhpFactory::eol()
+            ->text(PhpFactory::format('%7$s%2$s%3$s function %1$s(%4$s)%5$s' . PhpFactory::eol() . '{' . PhpFactory::eol()
                 . '%6$s' . '}',
                 $this->Name,
                 $this->Visibility,
@@ -55,7 +55,8 @@ class ClassMethodDeclaration extends FunctionDeclaration
                 implode(', ', $this->Arguments),
                 PhpFactory::format(': %s', $this->returns),
 //                PhpFactory::text()->text($this->Body)
-                $this->Body
+                $this->Body,
+                PhpFactory::format("%s\n", $this->phpdoc)
             ))
         ;
     }
